@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mission Moon
 
-## Getting Started
+An offline 3D educational space game for lower secondary students (Next.js App Router, React, TypeScript, Three.js via React Three Fiber). Students travel through 10 stages: school, a taxi ride, a space research centre, astronaut training, launch preparation, rocket launch, Earth orbit, the journey to the Moon and landing on the Moon. The same rocket carries the student crew, dressed as astronauts, from the launchpad to the Moon.
 
-First, run the development server:
+The mission plays like a story: every scene moves on by itself and there are no Next buttons. The player only controls the vehicle: hold the Up arrow to drive the taxi and fly the rocket, and on the Moon move the students with the arrow keys to visit five places: craters, Moon rocks, water ice, mountains and valleys, and science experiments. The whole mission takes about 4 to 5 minutes.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The school and research centre are fictional models. The research centre is only *inspired by* SUPARCO and is not a real SUPARCO mission.
+
+## Run on Windows (no internet after setup)
+
+One-time setup on a computer with Node.js 20+ and internet:
+
+```
+npm install
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then, on any later run (offline is fine), double-click `start-game.bat`, or run `npm start` and open <http://localhost:3000> in Edge or Chrome.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Development: `npm run dev`. Checks: `npx tsc --noEmit` and `npm run lint`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Controls
 
-## Learn More
+Hold **Up arrow (or W)** to drive the taxi and fly the rocket, **Left / Right** to steer, **Space** to honk the taxi horn. On the Moon the **arrow keys** (or W A S D) move the student, **Space** jumps and **Tab** switches student. Drag the mouse to look around and scroll to zoom. **Esc** pauses (from there you can skip a scene). Everything also works with the on-screen buttons.
 
-To learn more about Next.js, take a look at the following resources:
+## Voice narration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Every scene is narrated in simple English (an Asian-accent voice) with English subtitles. The voice comes from MP3 files in `public/audio/ur/` (44 short clips), so it works offline on any computer.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The clips were made once with Microsoft Edge online voice en-IN-NeerjaNeural. To change the wording, edit the `en` lines in `data/` and run `npm run audio` (needs internet) to make the missing clips, then `npm run build`.
 
-## Deploy on Vercel
+## Where things live
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `data/` – all educational content (stage definitions, hotspots, activities). Edit text here, not in scene code.
+- `components/game/scenes/` – one 3D scene per environment; `objects/` – Earth, Moon, rocket, spacecraft, astronaut, lander, effects.
+- `components/presentation/`, `components/game/` – UI.
+- `lib/progress.ts` – progress and settings saved in the browser's localStorage (key `mission-moon:*`).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All art is generated in code; there are no remote assets, fonts or network calls.
+
+## Weak computers
+
+Mission Moon switches to light graphics by itself on computers without a graphics card (or when the frame rate is low): fewer houses and trees, no shadows, no power lines. You can also turn this on under Sound & settings. New Urdu lines are made with `npm run audio` (needs internet once).
